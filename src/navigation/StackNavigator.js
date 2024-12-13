@@ -62,15 +62,15 @@ const StackNavigator = () => {
                     component={FormTopTabNavigator}
                 />
 
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='FormEditor'
                     component={FormEditor}
-                />
+                /> */}
 
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='FormViewer'
                     component={FormViewer}
-                />
+                /> */}
 
             </Stack.Navigator>
         </NavigationContainer>

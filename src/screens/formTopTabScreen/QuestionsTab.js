@@ -1,19 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { View, FlatList, StyleSheet } from 'react-native';
+import { QuestionCard } from '../../components/index';
 
-const QuestionsTab = () => {
+const questions = [
+    {
+        id: '1',
+        type: 'text',
+        questionText: 'What is your name?',
+    },
+    {
+        id: '2',
+        type: 'grid',
+        questionText: 'Select your favorite fruits:',
+    },
+    {
+        id: '3',
+        type: 'checkbox',
+        questionText: 'Select all the programming languages you know:',
+    },
+];
 
-    useEffect(() => {
-    }, []);
-
+const QuestionTab = () => {
     return (
-        <View>
-            <Text>QuestionsTab</Text>
+        <View style={styles.container}>
+            <FlatList
+                data={questions}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <QuestionCard question={item} />}
+                contentContainerStyle={styles.listContainer}
+                showsVerticalScrollIndicator={false}
+            />
         </View>
-
     );
 };
 
-export default QuestionsTab;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#f9f9f9',
+    },
+    listContainer: {
+        paddingBottom: 20,
+    },
+});
 
+export default QuestionTab;

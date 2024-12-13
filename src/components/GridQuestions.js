@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, ActivityIndicator, ViewStyle, View } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, View } from 'react-native';
 
 
 const GridQuestions = () => {

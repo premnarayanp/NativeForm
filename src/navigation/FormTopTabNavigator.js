@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function FormTopTabNavigator({ ...routes }) {
+export default function FormTopTabNavigator({ navigation }) {
     return (
         <NavigationContainer independent={true}>
             <Tab.Navigator

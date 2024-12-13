@@ -8,8 +8,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 
 const Stack = createNativeStackNavigator();
-const myProfilePic = require('../assets/my_photos.png');
 const brandLogo = require('../assets/brandLogo.png');
+const myProfilePic = require('../assets/my_photos.png');
+
 
 const StackNavigator = () => {
 

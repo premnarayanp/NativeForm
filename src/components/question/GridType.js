@@ -3,10 +3,14 @@ import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-nativ
 import { MaterialIcons } from '@expo/vector-icons';
 
 const GridType = () => {
-    const [options, setOptions] = useState([]);
+    const [column, setColumn] = useState([]);
+    const [row, setRow] = useState([]);
 
-    const addOption = () => setOptions([...options, '']);
-    const removeOption = (index) => setOptions(options.filter((_, i) => i !== index));
+    const addColumn = () => setColumn([...column, '']);
+    const removeColumn = (index) => setColumn(column.filter((_, i) => i !== index));
+
+    const addRow = () => setRow([...row, '']);
+    const removeRow = (index) => setRow(row.filter((_, i) => i !== index));
 
     return (
         <View>
@@ -18,32 +22,56 @@ const GridType = () => {
             {/* Second Row: TextInput for Question */}
             <TextInput style={styles.input} placeholder="Question" />
             {/* Third Row: Options */}
-            {options.map((option, index) => (
+            {row.map((option, index) => (
                 <View key={index} style={styles.optionRow}>
                     <TextInput
                         style={styles.input}
                         placeholder="Option"
                         value={option}
                         onChangeText={(text) =>
-                            setOptions((prev) =>
+                            setRow((prev) =>
                                 prev.map((opt, i) => (i === index ? text : opt))
                             )
                         }
                     />
-                    <TouchableOpacity onPress={() => removeOption(index)} style={styles.removeButton}>
+                    <TouchableOpacity onPress={() => removeRow(index)} style={styles.removeButton}>
                         <Text style={styles.removeButtonText}>X</Text>
                     </TouchableOpacity>
                 </View>
             ))}
             {/* Fourth Row: Buttons for Add Row and Add Column */}
             <View style={styles.buttonsRow}>
-                <TouchableOpacity onPress={addOption} style={styles.addButton}>
+                <TouchableOpacity onPress={addRow} style={styles.addButton}>
                     <Text style={styles.addButtonText}>Add Row</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={addOption} style={styles.addButton}>
+            </View>
+
+
+            {column.map((option, index) => (
+                <View key={index} style={styles.optionRow}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Option"
+                        value={option}
+                        onChangeText={(text) =>
+                            setColumn((prev) =>
+                                prev.map((opt, i) => (i === index ? text : opt))
+                            )
+                        }
+                    />
+                    <TouchableOpacity onPress={() => removeColumn(index)} style={styles.removeButton}>
+                        <Text style={styles.removeButtonText}>X</Text>
+                    </TouchableOpacity>
+                </View>
+            ))}
+            {/* Fourth Row: Buttons for Add Row and Add Column */}
+            <View style={styles.buttonsRow}>
+                <TouchableOpacity onPress={addColumn} style={styles.addButton}>
                     <Text style={styles.addButtonText}>Add Column</Text>
                 </TouchableOpacity>
             </View>
+
+
         </View>
     );
 };
@@ -60,19 +88,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     input: {
+        borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 4,
         padding: 10,
         fontSize: 14,
-        marginBottom: 16,
+        // marginBottom: 16,
         flex: 1,
-        borderBottomWidth: 2,
-        borderBottomColor: "blue"
+        // borderBottomWidth: 2,
+        // borderBottomColor: "blue"
     },
     optionRow: {
+        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+        justifyContent: 'space-between',
+        alignContent: 'center',
+        marginTop: 6
     },
     removeButton: {
         marginLeft: 10,
@@ -85,15 +118,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     buttonsRow: {
+
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
     },
     addButton: {
         backgroundColor: '#007BFF',
         borderRadius: 4,
         padding: 10,
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 5,
+        marginBottom: 5
     },
     addButtonText: {
         color: '#fff',

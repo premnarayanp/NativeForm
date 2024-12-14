@@ -7,7 +7,6 @@ const CheckBoxType = () => {
 
     const addChoice = () => setChoices([...choices, '']);
     const removeChoice = (index) => setChoices(choices.filter((_, i) => i !== index));
-
     return (
         <View>
             {/* First Row: Icon + Title */}
@@ -20,6 +19,8 @@ const CheckBoxType = () => {
             {/* Third Row: Choices */}
             {choices.map((choice, index) => (
                 <View key={index} style={styles.optionRow}>
+
+                    <MaterialIcons name="check-box-outline-blank" size={24} color="#007BFF" />
                     <TextInput
                         style={styles.input}
                         placeholder="Option"
@@ -60,13 +61,15 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         padding: 10,
         fontSize: 14,
-        marginBottom: 16,
+        // marginBottom: 16,
         flex: 1,
     },
     optionRow: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+        marginTop: 5,
+        alignContent: 'center',
     },
     removeButton: {
         marginLeft: 10,

@@ -21,7 +21,7 @@ const QuestionTab = () => {
     const currentForm = useSelector((state) => state.formReducer.currentForm);
     const { formTitle, headerImg } = currentForm;
 
-    console.log("questions--", questions);
+    // console.log("questions--", questions);
 
     const handleUpdateCurrentFormTitle = (text) => {
         dispatch(updateCurrentForm({ key: "formTitle", data: text }))

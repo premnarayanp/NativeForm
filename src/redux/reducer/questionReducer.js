@@ -2,7 +2,14 @@ import * as types from "../action/actionType";
 
 const initialQuestionState = {
     questions: [],
-
+    // {
+    //  id:"",
+    //  questionText:"",
+    //  type:"", 
+    //  checkBoxOption:[],
+    //  gridRowOption:[],
+    //  gridColumnOption:[] 
+    // }
 };
 
 export default function questions(state = initialQuestionState, action) {
@@ -20,7 +27,7 @@ export default function questions(state = initialQuestionState, action) {
                 ...state,
                 questions: [
                     ...state.questions,
-                    action.payload.question,
+                    action.payload,
                 ],
             };
 

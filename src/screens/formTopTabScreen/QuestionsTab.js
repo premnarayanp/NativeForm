@@ -1,34 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, TextInput, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { QuestionCard } from '../../components/index';
 import * as ImagePicker from 'expo-image-picker';
 import QuestionModalSheet from '../../components/question/QuestionModalSheet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { addQuestionsLists } from '../../redux/action/questionAction';
+import { updateCurrentForm } from '../../redux/action/formActions';
 
-const questions = [
-    {
-        id: '1',
-        type: 'text',
-        questionText: 'What is your name?',
-    },
-    {
-        id: '2',
-        type: 'grid',
-        questionText: 'Select your favorite fruits:',
-    },
-    {
-        id: '3',
-        type: 'checkbox',
-        questionText: 'Select all the programming languages you know:',
-    },
-];
 
 const QuestionTab = () => {
-    const [headerImg, setHeaderImg] = useState(null); // State to store the selected image
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => setIsModalVisible(false);
+
+    const dispatch = useDispatch();
+    const questions = useSelector((state) => state.questionReducer.questions);
+    const currentForm = useSelector((state) => state.formReducer.currentForm);
+    const { formTitle, headerImg } = currentForm;
+
+    console.log("questions--", questions);
+
+    const handleUpdateCurrentFormTitle = (text) => {
+        dispatch(updateCurrentForm({ key: "formTitle", data: text }))
+    }
 
     const pickImage = async () => {
         // Request permission to access media library
@@ -47,7 +44,7 @@ const QuestionTab = () => {
         });
 
         if (!result.canceled) {
-            setHeaderImg(result.assets[0].uri); // Set the selected image URI
+            dispatch(updateCurrentForm({ key: "headerImg", data: result.assets[0].uri })); // Set the selected image URI
         }
     };
 
@@ -56,7 +53,7 @@ const QuestionTab = () => {
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.card}>
                     {/* Input for form title */}
-                    <TextInput style={styles.input} placeholder="Untitled Form" />
+                    <TextInput style={styles.input} placeholder="Untitled Form" value={formTitle} onChangeText={handleUpdateCurrentFormTitle} />
 
                     {/* Image Picker */}
                     <TouchableOpacity style={styles.headerImg} onPress={pickImage}>

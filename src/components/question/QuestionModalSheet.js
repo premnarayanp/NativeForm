@@ -1,8 +1,26 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch } from 'react-redux';
+import { addQuestionToLists } from '../../redux/action/questionAction';
 
 const QuestionModalSheet = ({ isVisible, onClose }) => {
+    const dispatch = useDispatch();
+
+    const addQuestion = (option) => {
+        dispatch(addQuestionToLists({
+            id: Date.now(),
+            questionText: "",
+            type: option.type,
+            checkBoxOption: [],
+            gridRowOption: [],
+            gridColumnOption: []
+        }))
+
+        onClose();
+    }
+
+
     return (
         <Modal
             visible={isVisible}
@@ -27,7 +45,7 @@ const QuestionModalSheet = ({ isVisible, onClose }) => {
                             <View key={option.type} style={styles.optionRow}>
                                 <MaterialCommunityIcons name={option.icon} size={24} color="blue" />
                                 <Text style={styles.optionTitle}>{option.title}</Text>
-                                <TouchableOpacity style={styles.optionButton}>
+                                <TouchableOpacity style={styles.optionButton} onPress={() => addQuestion(option)}>
                                     <Text style={styles.buttonText}>Add</Text>
                                 </TouchableOpacity>
                             </View>

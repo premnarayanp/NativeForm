@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { updateQuestionToLists, addObOptions, updateOptions, deleteOptions } from '../../redux/action/questionAction';
 
-const GridType = () => {
-    const [column, setColumn] = useState([]);
-    const [row, setRow] = useState([]);
 
-    const addColumn = () => setColumn([...column, '']);
-    const removeColumn = (index) => setColumn(column.filter((_, i) => i !== index));
+const GridType = ({ question }) => {
+    const { id, questionText, gridRowOption, gridColumnOption } = question;
+    const dispatch = useDispatch();
 
-    const addRow = () => setRow([...row, '']);
-    const removeRow = (index) => setRow(row.filter((_, i) => i !== index));
+    const handleQuestionTextUpdate = (value) => {
+        dispatch(updateQuestionToLists({ updatedQuestion: value, id: id }))
+    }
+
+    const handleOptionAdd = (optionKey) => {
+        dispatch(addObOptions({ optionKey, questionId: id, data: "" }))
+    }
+
+    const handleOptionUpdate = (text, index, optionKey) => {
+        dispatch(updateOptions({ questionId: id, optionKey, newData: text, index }))
+    }
+
+    const handleOptionDelete = (index, optionKey) => {
+        dispatch(deleteOptions({ optionKey, questionId: id, index }))
+    }
+
 
     return (
         <View>
@@ -20,53 +34,46 @@ const GridType = () => {
                 <Text style={styles.headerTitle}>Grid Type</Text>
             </View>
             {/* Second Row: TextInput for Question */}
-            <TextInput style={styles.input} placeholder="Question" />
+            <TextInput style={styles.input} placeholder="Question" value={questionText} onChangeText={handleQuestionTextUpdate} />
             {/* Third Row: Options */}
-            {row.map((option, index) => (
+            {gridRowOption.map((option, index) => (
                 <View key={index} style={styles.optionRow}>
                     <TextInput
                         style={styles.input}
                         placeholder="Option"
                         value={option}
-                        onChangeText={(text) =>
-                            setRow((prev) =>
-                                prev.map((opt, i) => (i === index ? text : opt))
-                            )
-                        }
+                        onChangeText={(text) => handleOptionUpdate(text, index, "gridRowOption")}
                     />
-                    <TouchableOpacity onPress={() => removeRow(index)} style={styles.removeButton}>
+                    <TouchableOpacity onPress={() => handleOptionDelete(index, "gridRowOption")} style={styles.removeButton}>
                         <Text style={styles.removeButtonText}>X</Text>
                     </TouchableOpacity>
                 </View>
             ))}
+
             {/* Fourth Row: Buttons for Add Row and Add Column */}
             <View style={styles.buttonsRow}>
-                <TouchableOpacity onPress={addRow} style={styles.addButton}>
+                <TouchableOpacity onPress={() => handleOptionAdd("gridRowOption")} style={styles.addButton}>
                     <Text style={styles.addButtonText}>Add Row</Text>
                 </TouchableOpacity>
             </View>
 
 
-            {column.map((option, index) => (
+            {gridColumnOption.map((option, index) => (
                 <View key={index} style={styles.optionRow}>
                     <TextInput
                         style={styles.input}
                         placeholder="Option"
                         value={option}
-                        onChangeText={(text) =>
-                            setColumn((prev) =>
-                                prev.map((opt, i) => (i === index ? text : opt))
-                            )
-                        }
+                        onChangeText={(text) => handleOptionUpdate(text, index, "gridColumnOption")}
                     />
-                    <TouchableOpacity onPress={() => removeColumn(index)} style={styles.removeButton}>
+                    <TouchableOpacity onPress={() => handleOptionDelete(index, "gridColumnOption")} style={styles.removeButton}>
                         <Text style={styles.removeButtonText}>X</Text>
                     </TouchableOpacity>
                 </View>
             ))}
             {/* Fourth Row: Buttons for Add Row and Add Column */}
             <View style={styles.buttonsRow}>
-                <TouchableOpacity onPress={addColumn} style={styles.addButton}>
+                <TouchableOpacity onPress={() => handleOptionAdd("gridColumnOption")} style={styles.addButton}>
                     <Text style={styles.addButtonText}>Add Column</Text>
                 </TouchableOpacity>
             </View>

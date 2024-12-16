@@ -6,11 +6,11 @@ const QuestionCard = ({ question }) => {
     const renderQuestionContent = () => {
         switch (question.type) {
             case 'text':
-                return <TextType />;
+                return <TextType question={question} />;
             case 'grid':
-                return <GridType />;
+                return <GridType question={question} />;
             case 'checkbox':
-                return <CheckBoxType />;
+                return <CheckBoxType question={question} />;
             default:
                 return null;
         }

@@ -11,7 +11,7 @@ const FormCard = ({ form }) => {
 
     return (
         <View style={styles.cardContainer}>
-            <Image source={{ uri: form.headerIgm }} style={styles.headerImage} />
+            <Image source={{ uri: form.headerImg }} style={styles.headerImage} />
             <Text style={styles.title}>{form.title}</Text>
             <TouchableOpacity onPress={toggleDropDown}>
                 <Feather name="more-vertical" size={24} color="black" style={styles.icon} />
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     headerImage: {
         width: 50,
         height: 50,
-        borderRadius: 25,
+        borderRadius: 8,
     },
     title: {
         flex: 1,

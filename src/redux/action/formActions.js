@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from './actionType';
 
 export const addFormList = (data) => ({
     type: types.ADD_FORM_LIST,

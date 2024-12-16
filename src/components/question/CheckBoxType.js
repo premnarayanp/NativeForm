@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { updateQuestionToLists, addObOptions, updateOptions, deleteOptions } from '../../redux/action/questionAction';
 
-const CheckBoxType = () => {
-    const [choices, setChoices] = useState([]);
+const CheckBoxType = ({ question }) => {
+    const { id, questionText, checkBoxOption } = question;
+    const dispatch = useDispatch();
 
-    const addChoice = () => setChoices([...choices, '']);
-    const removeChoice = (index) => setChoices(choices.filter((_, i) => i !== index));
+    const handleQuestionTextUpdate = (value) => {
+        dispatch(updateQuestionToLists({ updatedQuestion: value, id: id }))
+    }
+
+    const handleOptionAdd = () => {
+        dispatch(addObOptions({ optionKey: "checkBoxOption", questionId: id, data: "" }))
+    }
+
+    const handleOptionUpdate = (text, index) => {
+        dispatch(updateOptions({ optionKey: "checkBoxOption", questionId: id, newData: text, index }))
+    }
+
+    const handleOptionDelete = (index) => {
+        dispatch(deleteOptions({ optionKey: "checkBoxOption", questionId: id, index }))
+    }
+
+
     return (
         <View>
             {/* First Row: Icon + Title */}
@@ -15,9 +33,9 @@ const CheckBoxType = () => {
                 <Text style={styles.headerTitle}>CheckBox Type</Text>
             </View>
             {/* Second Row: TextInput for Question */}
-            <TextInput style={styles.input} placeholder="Question" />
+            <TextInput style={styles.input} placeholder="Question" value={questionText} onChangeText={handleQuestionTextUpdate} />
             {/* Third Row: Choices */}
-            {choices.map((choice, index) => (
+            {checkBoxOption.map((choice, index) => (
                 <View key={index} style={styles.optionRow}>
 
                     <MaterialIcons name="check-box-outline-blank" size={24} color="#007BFF" />
@@ -25,19 +43,15 @@ const CheckBoxType = () => {
                         style={styles.input}
                         placeholder="Option"
                         value={choice}
-                        onChangeText={(text) =>
-                            setChoices((prev) =>
-                                prev.map((opt, i) => (i === index ? text : opt))
-                            )
-                        }
+                        onChangeText={(text) => handleOptionUpdate(text, index)}
                     />
-                    <TouchableOpacity onPress={() => removeChoice(index)} style={styles.removeButton}>
+                    <TouchableOpacity onPress={() => handleOptionDelete(index)} style={styles.removeButton}>
                         <Text style={styles.removeButtonText}>X</Text>
                     </TouchableOpacity>
                 </View>
             ))}
             {/* Fourth Row: Button for Add Choice */}
-            <TouchableOpacity onPress={addChoice} style={styles.addButton}>
+            <TouchableOpacity onPress={handleOptionAdd} style={styles.addButton}>
                 <Text style={styles.addButtonText}>Add Choice</Text>
             </TouchableOpacity>
         </View>

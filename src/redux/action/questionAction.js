@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from './actionType';
 
 export const addQuestionsLists = (data) => ({
     type: types.ADD_QUESTIONS_LISTS,
